@@ -1,3 +1,4 @@
+const { log } = require("console");
 const fs = require("fs/promises");
 const path = require("path");
 
@@ -7,11 +8,18 @@ const getAll = async () => {
   return books;
 };
 
-const getById = async () => {
-  console.log("here getById");
+const getById = async (id) => {
+  const books = await getAll();
+  const book = books.find((book) => book.id === id);
+  return book || null;
+};
+
+const add = async (data) => {
+  console.log(data, "data");
 };
 
 module.exports = {
   getAll,
   getById,
+  add,
 };
