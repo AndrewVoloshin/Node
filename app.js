@@ -32,4 +32,4 @@ const invokeAction = async ({ action, id, title, author }) => {
 //   title: "New title 5557777",
 //   author: "Lorem i555psum dolor",
 // });
-invokeAction({ action: "delete", id: "5" });
+invokeAction({ action: "deleteById", id: "4" });

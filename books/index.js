@@ -41,9 +41,22 @@ const updateById = async (id, data) => {
   return books[index];
 };
 
+const deleteById = async (id) => {
+  const books = await getAll();
+  const index = books.findIndex((book) => book.id === id);
+  if (index === -1) return null;
+  const [result] = books.splice(index, 1);
+  await fs.writeFile(
+    path.join(__dirname, "listbooks.json"),
+    JSON.stringify(books, null, 2)
+  );
+  return result;
+};
+
 module.exports = {
   getAll,
   getById,
   add,
   updateById,
+  deleteById,
 };
