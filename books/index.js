@@ -1,6 +1,7 @@
 const { log } = require("console");
 const fs = require("fs/promises");
 const path = require("path");
+const { nanoid } = require("nanoid");
 
 const getAll = async () => {
   const data = await fs.readFile(path.join(__dirname, "listbooks.json"));
@@ -15,11 +16,34 @@ const getById = async (id) => {
 };
 
 const add = async (data) => {
-  console.log(data, "data");
+  const books = await getAll();
+  const newBook = {
+    id: nanoid(),
+    ...data,
+  };
+  books.push(newBook);
+  await fs.writeFile(
+    path.join(__dirname, "listbooks.json"),
+    JSON.stringify(books, null, 2)
+  );
+  return newBook;
+};
+
+const updateById = async (id, data) => {
+  const books = await getAll();
+  const index = books.findIndex((book) => book.id === id);
+  if (index === -1) return null;
+  books[index] = { id, ...data };
+  await fs.writeFile(
+    path.join(__dirname, "listbooks.json"),
+    JSON.stringify(books, null, 2)
+  );
+  return books[index];
 };
 
 module.exports = {
   getAll,
   getById,
   add,
+  updateById,
 };
